@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import IncidentForm from './NewIncidentForm';
+import NewIncidentForm from './NewIncidentForm'; // You imported NewIncidentForm
 import IncidentItem from './IncidentItem';
 
 const initialIncidents = [
@@ -34,15 +34,15 @@ const initialIncidents = [
 ];
 
 const IncidentDashboard = () => {
-  const [incidentList, setincidentList] = useState(initialIncidents);
-  const [severityFilter, setseverityFilter] = useState('All');
-  const [dateSortOrder, setdateSortOrder] = useState('Oldest');
+  const [incidentList, setIncidentList] = useState(initialIncidents);
+  const [severityFilter, setSeverityFilter] = useState('All');
+  const [dateSortOrder, setDateSortOrder] = useState('Oldest');
   const [showForm, setShowForm] = useState(false);
 
   const getFilteredAndSortedIncidents = () => {
     let filtered = severityFilter === 'All'
       ? incidentList
-      : incidentList.severityFilter((i) => i.severity === severityFilter);
+      : incidentList.filter((i) => i.severity === severityFilter);
 
     let sorted = [...filtered].sort((a, b) => {
       return dateSortOrder === 'Newest'
@@ -54,7 +54,7 @@ const IncidentDashboard = () => {
   };
 
   const addIncident = (incident) => {
-    setincidentList([incident, ...incidentList]);
+    setIncidentList([incident, ...incidentList]);
     setShowForm(false);
   };
 
@@ -65,7 +65,7 @@ const IncidentDashboard = () => {
       <div className="controls">
         <label>
           Severity:
-          <select value={severityFilter} onChange={(e) => setseverityFilter(e.target.value)}>
+          <select value={severityFilter} onChange={(e) => setSeverityFilter(e.target.value)}>
             <option>All</option>
             <option>Low</option>
             <option>Medium</option>
@@ -75,7 +75,7 @@ const IncidentDashboard = () => {
 
         <label>
           Sort by:
-          <select value={dateSortOrder} onChange={(e) => setdateSortOrder(e.target.value)}>
+          <select value={dateSortOrder} onChange={(e) => setDateSortOrder(e.target.value)}>
             <option value="Newest">Newest First</option>
             <option value="Oldest">Oldest First</option>
           </select>
@@ -86,7 +86,7 @@ const IncidentDashboard = () => {
         </button>
       </div>
 
-      {showForm && <IncidentForm onAdd={addIncident} />}
+      {showForm && <NewIncidentForm onAdd={addIncident} />}
 
       <div className="incident-list">
         {getFilteredAndSortedIncidents().map((incident) => (
